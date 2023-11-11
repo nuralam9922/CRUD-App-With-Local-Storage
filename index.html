@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>From</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="from-page">
+        <h1>CRUD Application With Local Storage
+        </h1>
+        <div class="input-container">
+            <!-- row one -->
+            <div class="row">
+                <div class="left">
+                    <h5>Name</h5>
+                    <input type="text" name="" id="" placeholder="Enter name" autofocus >
+                </div>
+                <div class="right">
+                    <h5>Age</h5>
+                    <input type="text" name="" id="" placeholder="Enter Age" >
+                </div>
+            </div>
+            <!-- row 2  -->
+            <div class="row">
+                <div class="left">
+                    <h5>Address</h5>
+                    <input type="text" name="" id="" placeholder="Enter Address" >
+                </div>
+                <div class="right">
+                    <h5>Email</h5>
+                    <input type="email" name="" id="" placeholder="Enter email" >
+                </div>
+            </div>
+            <div class="row">
+                <div id="btn">Add Data</div>
+            </div>
+        </div>
+        <div class="line"></div>
+        <div class="display-container">
+            <table rules="all">
+                <tr>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>Address</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                </tr>
+
+                <tr rules="">
+                    <td>Alfreds Futterkiste</td>
+                    <td>23</td>
+                    <td>Mumbai</td>
+                    <td>Temp@gmail.com</td>
+                    <td class="deleteAndEdit"><p class="Delete">Delete</p><p class="Edit">Edit</p></td>
+                </tr>
+                <tr rules="">
+                    <td>Alfreds Futterkiste</td>
+                    <td>18</td>
+                    <td>West bengal</td>
+                    <td>Nush9922@gmail.com</td>
+                    <td class="deleteAndEdit"><p class="Delete">Delete</p><p class="Edit">Edit</p></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
