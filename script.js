@@ -6,7 +6,7 @@ let address = document.getElementById("address");
 let email = document.getElementById("email");
 let table = document.getElementById("table");
 let addDataBtn = document.getElementById("btn")
-
+let popup = document.getElementById("popup");
 // ****** stor data in this object *******************
 let data = [];
 
@@ -22,14 +22,14 @@ function add() {
 
         if (name.value === "" || age.value === "" || address.value === "" || email.value === "") {
             // Handle validation error (empty fields)
-            alert("Please fill out all fields before adding data.");
+            ifBlank()
+           
         } else {
             data.push(newData);
             localStorage.setItem("userData", JSON.stringify(data));
-            console.log(localStorage.getItem("userData"));
             setTableData();
             clearInputValues();
-            alert("Data added successfully!");
+            ifAddRecord();
         }
     }
 }
@@ -56,16 +56,17 @@ function setTableData() {
     }
 
     edit();
-    delate();
+    deleteRecord();
 }
 // ********************************** this function delete the clicked item *************************
-function delate() {
+function deleteRecord() {
     let allDeleteBtns = document.querySelectorAll(".Delete");
     allDeleteBtns.forEach((deleteBtn, dataIndex) => {
         deleteBtn.onclick = function () {
             data.splice(dataIndex, 1);
             localStorage.setItem("userData", JSON.stringify(data));
             setTableData();
+            ifDeleteRecord();
         };
     });
 }
@@ -90,6 +91,7 @@ function edit() {
                 setTableData();
                 clearInputValues();
                 addDataBtn.innerHTML = 'Add Data';
+                ifEditRecord();
                 add();
             }
             addDataBtn.innerHTML = 'Edit Data';
@@ -98,9 +100,7 @@ function edit() {
 
 }
 
-
-
-
+add();
 
 // ************************** Clear all input fild values ***************************
 function clearInputValues() {
@@ -113,11 +113,89 @@ function clearInputValues() {
 
 
 
-
-
 let jEsonData = localStorage.getItem("userData");
 if (jEsonData) {
     data = JSON.parse(jEsonData);
     setTableData()
 }
 
+
+
+
+// *********************************** gsap animation popup display *****************************
+function ifBlank() {
+    popup.textContent = "Please fill out all fields before adding data."
+    gsap.set("#popup", { y: 0, opacity: 1, scale: 1 });
+
+    // Start the animation
+    gsap.to("#popup", {
+        y: 50,
+        duration: 1,
+        onComplete: function () {
+            gsap.to("#popup", {
+                opacity: 0,
+                scale: 0,
+                y: -50,
+                delay: 1,
+            });
+        },
+    });
+}
+
+function ifAddRecord() {
+    popup.textContent = "Data add successfully!";
+    gsap.set("#popup", { y: 0, opacity: 1, scale: 1 });
+
+    // Start the animation
+    gsap.to("#popup", {
+        y: 50,
+        duration: 1,
+        onComplete: function () {
+            gsap.to("#popup", {
+                opacity: 0,
+                scale: 0,
+                y: -50,
+                delay: 1,
+            });
+        },
+    });
+}
+
+function ifDeleteRecord() {
+    popup.textContent = "Data delete successfully!";
+    gsap.set("#popup", { y: 0, opacity: 1, scale: 1 });
+
+    // Start the animation
+    gsap.to("#popup", {
+        y: 50,
+        duration: 1,
+        onComplete: function () {
+            gsap.to("#popup", {
+                opacity: 0,
+                scale: 0,
+                y: -50,
+                delay: 1,
+            });
+        },
+    });
+}
+
+
+function ifEditRecord() {
+    popup.textContent = "Data edit successfully!";
+    gsap.set("#popup", { y: 0, opacity: 1, scale: 1 });
+
+    // Start the animation
+    gsap.to("#popup", {
+        y: 50,
+        duration: 1,
+        onComplete: function () {
+            gsap.to("#popup", {
+                opacity: 0,
+                scale: 0,
+                y: -50,
+                delay: 1,
+            });
+        },
+    });
+}
