@@ -22,6 +22,7 @@ body {
     background-color: #1e2530;
     padding: 50px 100px;
     color: #ffff;
+    overflow: hidden;
 }
 
 .from-page h1 {
@@ -102,7 +103,7 @@ body {
 
 .display-container {
     width: 100%;
-    height: 400px;
+    height: auto;
 }
 
 table {
@@ -114,35 +115,41 @@ table {
 
 table tr {
     height: 50px;
- 
+
 }
-table tr th{
+
+table tr th {
     text-align: start;
     padding: 10px;
-    font-family:sans-serif;
+    font-family: sans-serif;
 }
-table tr th:nth-child(1){
+
+table tr th:nth-child(1) {
     width: 250px;
-    
+
 }
-table tr th:nth-child(2){
+
+table tr th:nth-child(2) {
     width: 100px;
 }
-table tr th:nth-child(3){
+
+table tr th:nth-child(3) {
     width: 350px;
 }
-table tr th:nth-child(4){
+
+table tr th:nth-child(4) {
     width: 200px;
 }
-table tr td{
+
+table tr td {
     height: 100px;
     padding: 10px;
     font-family: arial;
     font-size: 15px;
-    
+
 }
 
-.deleteAndEdit{
+.deleteAndEdit {
     width: 100%;
     display: flex;
     justify-content: center;
@@ -151,7 +158,8 @@ table tr td{
     border: none;
     border-bottom: 1px solid;
 }
-.Delete{
+
+.Delete {
     background-color: #dc3444;
     width: 80px;
     height: 40px;
@@ -166,7 +174,8 @@ table tr td{
     font-family: roboto;
     cursor: pointer;
 }
-.Edit{
+
+.Edit {
     background-color: #ffc300;
     color: #000;
     width: 80px;
