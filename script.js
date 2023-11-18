@@ -13,26 +13,67 @@ let data = [];
 // **************** run function when yuser click addDataBtn *************
 function add() {
     addDataBtn.onclick = function () {
-        let newData = {
-            "name": name.value,
-            "age": age.value,
-            "address": address.value,
-            "email": email.value
-        };
 
-        if (name.value === "" || age.value === "" || address.value === "" || email.value === "") {
-            // Handle validation error (empty fields)
-            ifBlank()
-           
-        } else {
+        let newData = {
+            "name": name.value.trim(),
+            "age": age.value.trim(),
+            "address": address.value.trim(),
+            "email": email.value.trim()
+        };
+        
+        // Handle validation error (invalid characters in the name)
+         if (!/^[A-Za-z\s]+$/.test(name.value)) {
+            popup.textContent = "Please enter a valid name using only letters and spaces.";
+            showPopup();
+            name.focus();
+        }
+
+        // check first letter is capitale or not if not capital then call showPopup() function and pupup the message [ Please capitalize the first letter of the name.]
+        else if (name.value !== name.value.charAt(0).toUpperCase() + name.value.slice(1)) {
+            popup.textContent = " Please capitalize the first letter of the name.";
+            showPopup();
+            name.focus();
+        }
+
+        // age must have 2 digit number 
+        else if (age.value.length !== 2) {
+            popup.textContent = "Please enter a two-digit number for age.";
+            showPopup();
+            age.focus(); // set autoFocaus when any condition is true -----------------------
+        }
+
+        
+        // Handle validation error (empty fields)
+        else if (address.value.length <= 5) {
+            popup.textContent = "Please fill out address field before adding data.";
+            console.log(address.value.length)
+            showPopup();
+            address.focus(); // set autoFocaus when any condition is true -----------------------
+        }
+
+
+        // Handle validation error (email does not end with "@gmail.com")
+        else if (!email.value.endsWith("@gmail.com")) {
+            popup.textContent = "Please enter a valid email address ending with @gmail.com.";
+            showPopup();
+            email.focus(); // set autoFocaus when any condition is true -----------------------
+        }
+
+
+        else {
             data.push(newData);
             localStorage.setItem("userData", JSON.stringify(data));
             setTableData();
             clearInputValues();
-            ifAddRecord();
-        }
+            // ******** if data add successfully! then call call showPopup() function to popup or alart
+            popup.textContent = "Data add successfully!";
+            showPopup(); // set autoFocaus when any condition is true -----------------------
+        };
+
     }
 }
+
+
 
 // let allDeleteBtns = document.querySelectorAll(".Delete");
 function setTableData() {
@@ -66,7 +107,8 @@ function deleteRecord() {
             data.splice(dataIndex, 1);
             localStorage.setItem("userData", JSON.stringify(data));
             setTableData();
-            ifDeleteRecord();
+            popup.textContent = "Data delete successfully!";
+            showPopup();
         };
     });
 }
@@ -91,7 +133,8 @@ function edit() {
                 setTableData();
                 clearInputValues();
                 addDataBtn.innerHTML = 'Add Data';
-                ifEditRecord();
+                popup.textContent = "Data edit successfully!";
+                showPopup();
                 add();
             }
             addDataBtn.innerHTML = 'Edit Data';
@@ -123,79 +166,50 @@ if (jEsonData) {
 
 
 // *********************************** gsap animation popup display *****************************
-function ifBlank() {
-    popup.textContent = "Please fill out all fields before adding data."
+function showPopup() {
+
     gsap.set("#popup", { y: 0, opacity: 1, scale: 1 });
 
     // Start the animation
     gsap.to("#popup", {
-        y: 50,
+        y: 60,
         duration: 1,
         onComplete: function () {
             gsap.to("#popup", {
                 opacity: 0,
                 scale: 0,
                 y: -50,
-                delay: 1,
-            });
-        },
-    });
-}
-
-function ifAddRecord() {
-    popup.textContent = "Data add successfully!";
-    gsap.set("#popup", { y: 0, opacity: 1, scale: 1 });
-
-    // Start the animation
-    gsap.to("#popup", {
-        y: 50,
-        duration: 1,
-        onComplete: function () {
-            gsap.to("#popup", {
-                opacity: 0,
-                scale: 0,
-                y: -50,
-                delay: 1,
-            });
-        },
-    });
-}
-
-function ifDeleteRecord() {
-    popup.textContent = "Data delete successfully!";
-    gsap.set("#popup", { y: 0, opacity: 1, scale: 1 });
-
-    // Start the animation
-    gsap.to("#popup", {
-        y: 50,
-        duration: 1,
-        onComplete: function () {
-            gsap.to("#popup", {
-                opacity: 0,
-                scale: 0,
-                y: -50,
-                delay: 1,
+                delay: 2,
             });
         },
     });
 }
 
 
-function ifEditRecord() {
-    popup.textContent = "Data edit successfully!";
-    gsap.set("#popup", { y: 0, opacity: 1, scale: 1 });
+// *********************************** search Data my name ***********
+let searchBox = document.getElementById("search");
+let searchBnutton = document.getElementById("searchBnutton");
+searchBox.onmouseenter = function(){
+    searchBox.style.width = "70%";
+    searchBnutton.style.transform = "rotate(360deg)";
 
-    // Start the animation
-    gsap.to("#popup", {
-        y: 50,
-        duration: 1,
-        onComplete: function () {
-            gsap.to("#popup", {
-                opacity: 0,
-                scale: 0,
-                y: -50,
-                delay: 1,
-            });
-        },
-    });
+}
+searchBox.onmouseleave = function(){
+    searchBox.style.width = "50%";
+    searchBnutton.style.transform = "rotate(0deg)";
+}
+
+
+
+
+
+// menu 
+
+let menu = document.getElementById("menu");
+menu.onclick = function(){
+    document.getElementById("menu-overlay").style.right = "0";
+}
+
+document.getElementById("menu-overlay-close").onclick = function(){
+    document.getElementById("menu-overlay").style.right = "-50%"; 
 }
