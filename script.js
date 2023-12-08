@@ -15,25 +15,19 @@ function add() {
     addDataBtn.onclick = function () {
 
         let newData = {
-            "name": name.value.trim(),
+            "name": name.value.charAt(0).toUpperCase() + name.value.slice(1).trim(),
             "age": age.value.trim(),
             "address": address.value.trim(),
             "email": email.value.trim()
         };
-        
+
         // Handle validation error (invalid characters in the name)
-         if (!/^[A-Za-z\s]+$/.test(name.value)) {
+        if (!/^[A-Za-z\s]+$/.test(name.value)) {
             popup.textContent = "Please enter a valid name using only letters and spaces.";
             showPopup();
             name.focus();
         }
 
-        // check first letter is capitale or not if not capital then call showPopup() function and pupup the message [ Please capitalize the first letter of the name.]
-        else if (name.value !== name.value.charAt(0).toUpperCase() + name.value.slice(1)) {
-            popup.textContent = " Please capitalize the first letter of the name.";
-            showPopup();
-            name.focus();
-        }
 
         // age must have 2 digit number 
         else if (age.value.length !== 2) {
@@ -42,7 +36,7 @@ function add() {
             age.focus(); // set autoFocaus when any condition is true -----------------------
         }
 
-        
+
         // Handle validation error (empty fields)
         else if (address.value.length <= 5) {
             popup.textContent = "Please fill out address field before adding data.";
@@ -66,6 +60,7 @@ function add() {
             setTableData();
             clearInputValues();
             // ******** if data add successfully! then call call showPopup() function to popup or alart
+            document.getElementById("popup").style.backgroundColor = "#1c8551";
             popup.textContent = "Data add successfully!";
             showPopup(); // set autoFocaus when any condition is true -----------------------
         };
@@ -123,19 +118,56 @@ function edit() {
             age.value = data[dataIndex].age;
             address.value = data[dataIndex].address;
             email.value = data[dataIndex].email;
-            console.log(data[dataIndex].age);
+          
             addDataBtn.onclick = function () {
                 data[dataIndex].name = name.value;
                 data[dataIndex].age = age.value;
                 data[dataIndex].address = address.value;
                 data[dataIndex].email = email.value;
-                localStorage.setItem("userData", JSON.stringify(data));
-                setTableData();
-                clearInputValues();
-                addDataBtn.innerHTML = 'Add Data';
-                popup.textContent = "Data edit successfully!";
-                showPopup();
-                add();
+                if (!/^[A-Za-z\s]+$/.test(name.value)) {
+                    popup.textContent = "Please enter a valid name using only letters and spaces.";
+                    showPopup();
+                    name.focus();
+                }
+
+
+                // age must have 2 digit number 
+                else if (age.value.length !== 2) {
+                    popup.textContent = "Please enter a two-digit number for age.";
+                    showPopup();
+                    age.focus(); // set autoFocaus when any condition is true -----------------------
+                }
+
+
+                // Handle validation error (empty fields)
+                else if (address.value.length <= 5) {
+                    popup.textContent = "Please fill out address field before adding data.";
+                    console.log(address.value.length)
+                    showPopup();
+                    address.focus(); // set autoFocaus when any condition is true -----------------------
+                }
+
+
+                // Handle validation error (email does not end with "@gmail.com")
+                else if (!email.value.endsWith("@gmail.com")) {
+                    popup.textContent = "Please enter a valid email address ending with @gmail.com.";
+                    showPopup();
+                    email.focus(); // set autoFocaus when any condition is true -----------------------
+                }
+
+
+                else {
+                    localStorage.setItem("userData", JSON.stringify(data));
+                    setTableData();
+                    clearInputValues();
+                    addDataBtn.innerHTML = 'Add Data';
+                    popup.textContent = "Data edit successfully!";
+                    showPopup();
+                    add();
+                };
+
+
+
             }
             addDataBtn.innerHTML = 'Edit Data';
         };
@@ -189,15 +221,52 @@ function showPopup() {
 // *********************************** search Data my name ***********
 let searchBox = document.getElementById("search");
 let searchBnutton = document.getElementById("searchBnutton");
-searchBox.onmouseenter = function(){
+searchBox.onmouseenter = function () {
     searchBox.style.width = "70%";
     searchBnutton.style.transform = "rotate(360deg)";
 
 }
-searchBox.onmouseleave = function(){
+searchBnutton.onmouseenter = function () {
+    searchBox.style.width = "70%";
+    searchBnutton.style.transform = "rotate(360deg)";
+
+}
+searchBox.onmouseleave = function () {
     searchBox.style.width = "50%";
     searchBnutton.style.transform = "rotate(0deg)";
 }
+searchBnutton.onclick = function () {
+    const searchValue = searchBox.value.toLowerCase(); // Convert search value to lowercase for case-insensitive comparison
+
+    data.forEach((el, i) => {
+        if (el.name.toLowerCase() === searchValue) {
+                table.innerHTML = `
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Address</th>
+                <th>Email</th>
+                <th>Actions</th>
+            </tr>`;
+
+
+                table.innerHTML += `<tr>
+                    <td>${el.name}</td>
+                    <td>${el.age}</td>
+                    <td>${el.address}</td>
+                    <td>${el.email}</td>
+                    <td class="deleteAndEdit"><p class="Delete">Delete</p><p class="Edit">Edit</p></td>
+                </tr>`;
+
+                edit();
+                deleteRecord();
+        } else {
+            table.innerHTML = `NOT FOUND `
+        }
+    });
+
+    searchBox.value = ""; 
+};
 
 
 
@@ -206,10 +275,10 @@ searchBox.onmouseleave = function(){
 // menu 
 
 let menu = document.getElementById("menu");
-menu.onclick = function(){
+menu.onclick = function () {
     document.getElementById("menu-overlay").style.right = "0";
 }
 
-document.getElementById("menu-overlay-close").onclick = function(){
-    document.getElementById("menu-overlay").style.right = "-50%"; 
+document.getElementById("menu-overlay-close").onclick = function () {
+    document.getElementById("menu-overlay").style.right = "-50%";
 }
