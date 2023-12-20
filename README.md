@@ -3,8 +3,6 @@
 https://nur-9922.github.io/CRUD-App-With-Local-Storage
 
 
-# CRUD App With Local Storage
-
 ## Overview
 
 This project is a simple CRUD (Create, Read, Update, Delete) application implemented in JavaScript, HTML, and CSS. The primary purpose of this application is to demonstrate how to perform basic CRUD operations using local storage in a web browser. Local storage is used to persist data on the client side, allowing users to interact with the application without the need for a server.
